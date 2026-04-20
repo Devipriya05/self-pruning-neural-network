@@ -1,4 +1,4 @@
-# self-pruning-neural-network
+# Self-pruning-neural-network
 Self-pruning neural network for CIFAR-10 that dynamically learns sparse connections using learnable gates and L1 regularization, demonstrating the trade-off between model accuracy and sparsity.
 # Self-Pruning Neural Network
 
@@ -100,9 +100,21 @@ Where:
 * Remaining gates form a separate cluster → important weights
 
 👉 This confirms that the network successfully learns to prune itself.
+**Gate Value Distribution**
+
+The distribution of final gate values shows two clear patterns:
+
+A large spike near 0, representing pruned or inactive connections
+A separate cluster away from 0, representing important weights
+
+This bimodal distribution confirms that the model successfully learns to distinguish between necessary and unnecessary connections, resulting in effective self-pruning behavior.
 
 ---
+Why L1 on Sigmoid Gates Encourages Sparsity
 
+Each weight in the prunable layer is controlled by a gate value obtained using a sigmoid function, which restricts values between 0 and 1. Applying an L1 penalty (sum of gate values) encourages the model to minimize these gate values.
+
+Since L1 regularization is known to push parameters toward exact zeros, many gates shrink close to 0 during training. When a gate approaches 0, the corresponding weight contribution becomes negligible, effectively pruning that connection. This leads to a sparse network where only important weights remain active.
 ## 🧰 Tech Stack
 
 * Python
